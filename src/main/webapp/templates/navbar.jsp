@@ -15,8 +15,8 @@
 	      	<a class=" btn btn-outline-primary" href="login">Login</a>
 	      </c:if>
 	      <c:if test="${!empty usuario}">
-		      <a class=" badge badge-warning" href="backoffice/index.jsp">${usuario}</a>
-		      <a class="p-2 text-white" href="backoffice/materiales"> Materiales</a> 
+		      <a class=" badge badge-warning" href="backoffice/materiales?op=5" >${usuario}</a>
+		      <a class="p-2 text-white" href="backoffice/materiales" > Materiales</a> 
 		      <a class=" btn btn-outline-danger" href="logout">Logout</a>
 	      </c:if>
       </nav>

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/custom.css">
     <!-- Para usar el c en toda la web -->
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <!-- font awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
 
     <title>Nidea</title>
   </head>

@@ -153,7 +153,7 @@ public class BackofficeMaterialesController extends HttpServlet {
 	private void mostrarFormulario(HttpServletRequest request) {
 		Material material = new Material();
 		if (id > 0) {
-			material = dao.seachid(id);
+			material = dao.getById(id);
 		}
 		request.setAttribute("material", material);
 		dispacher = request.getRequestDispatcher(VIEW_FORM);

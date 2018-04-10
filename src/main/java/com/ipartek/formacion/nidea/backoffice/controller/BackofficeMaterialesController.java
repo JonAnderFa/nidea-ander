@@ -1,6 +1,7 @@
 package com.ipartek.formacion.nidea.backoffice.controller;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -154,6 +155,15 @@ public class BackofficeMaterialesController extends HttpServlet {
 		Material material = new Material();
 		if (id > 0) {
 			material = dao.getById(id);
+
+		} else {
+			material.setId(id);
+			if (nombre != null) {
+				material.setNombre(nombre);
+			}
+			if (precio > 0) {
+				material.setPrecio(precio);
+			}
 		}
 		request.setAttribute("material", material);
 		dispacher = request.getRequestDispatcher(VIEW_FORM);
@@ -172,19 +182,61 @@ public class BackofficeMaterialesController extends HttpServlet {
 	}
 
 	private void guardar(HttpServletRequest request) {
+		boolean crear = false;
+		boolean update = false;
+		try {
+			if (request.getParameter("precio") != null) {
+				precio = Float.parseFloat(request.getParameter("precio"));
+				if (precio < 0) {
+					alert = new Alert("<b>" + request.getParameter("precio") + "</b> no es un precio correcto",
+							Alert.TIPO_WARNING);
+				}
 
-		Material material = new Material();
-		if (id == -1) {
-			alert = new Alert("Creado Nuevo Material ", Alert.TIPO_PRIMARY);
-			dao.create(nombre, precio);
-		} else {
-			alert = new Alert("Modificado Material id: " + id, Alert.TIPO_PRIMARY);
-			dao.update(id, nombre, precio);
+			}
+			if (alert == null)
+				try {
+					if (id == -1) {
+						dao.create(nombre, precio);
+						alert = new Alert("Creado Nuevo Material ", Alert.TIPO_PRIMARY);
+						crear = true;
+						update = false;
+						request.setAttribute("id", id);
+						request.setAttribute("nombre", nombre);
+						request.setAttribute("precio", precio);
+
+					} else {
+						dao.update(id, nombre, precio);
+						alert = new Alert("Modificado Material id: " + id, Alert.TIPO_PRIMARY);
+						crear = false;
+						update = true;
+
+					}
+
+				} catch (SQLIntegrityConstraintViolationException e) {
+					alert = new Alert("No podemos crear el producto por que ya existe =( ", Alert.TIPO_DANGER);
+
+				} catch (Exception e) {
+					alert = new Alert("Hubo un problema a la hora de crear, no pudimos crearlo ", Alert.TIPO_DANGER);
+
+				}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			alert = new Alert("<b>" + request.getParameter("precio") + "</b> no es un precio correcto",
+					Alert.TIPO_WARNING);
+
+		} finally {
+			if (crear) {
+				listar(request);
+
+			} else {
+				request.setAttribute("id", id);
+				request.setAttribute("nombre", nombre);
+				mostrarFormulario(request);
+				nombre = "";
+			}
+
+			request.setAttribute("alert", alert);
 		}
-
-		request.setAttribute("material", material);
-		listar(request);
-		request.setAttribute("alert", alert);
 
 	}
 
@@ -223,12 +275,17 @@ public class BackofficeMaterialesController extends HttpServlet {
 		}
 		if (request.getParameter("nombre") != null) {
 			nombre = request.getParameter("nombre");
+			if (nombre.length() > 0) {
+				nombre = nombre.trim();
+				if (nombre.length() > 45) {
+					nombre = nombre.substring(0, 44);
+				}
+			} else {
+				nombre = null;
+			}
 
 		}
-		if (request.getParameter("precio") != null) {
-			precio = Float.parseFloat(request.getParameter("precio"));
 
-		}
 	}
 
 }

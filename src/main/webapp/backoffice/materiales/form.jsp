@@ -23,7 +23,7 @@
 	  <div class="input-group ">
 	    <label for="precio" class="col-sm-2 col-form-label">Precio</label>
 	    <div class="input-group-append">
-	      <input type="text" class="form-control" value="${material.precio}" name="precio" placeholder="Introduce el precio">
+	      <input type="number" step="0.01" class="form-control" value="${material.precio}" name="precio" placeholder="Introduce el precio">
 	      <span class="input-group-text">&euro;</span>
 	    </div>
 	   

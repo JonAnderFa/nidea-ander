@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.nidea.pojo.Material;
@@ -147,7 +148,8 @@ public class MaterialDAO implements Persistible<Material> {
 		return resul;
 	}
 
-	public boolean update(int id, String nombre, float precio) {
+	public boolean update(int id, String nombre, float precio)
+			throws SQLIntegrityConstraintViolationException, Exception {
 		boolean resul = false;
 		String sql = "UPDATE `material` SET `nombre`=? , `precio`=? WHERE  `id`=?;";
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
@@ -161,13 +163,11 @@ public class MaterialDAO implements Persistible<Material> {
 				resul = true;
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return resul;
 	}
 
-	public boolean create(String nombre, float precio) {
+	public boolean create(String nombre, float precio) throws SQLIntegrityConstraintViolationException, Exception {
 		boolean resul = false;
 		String sql = "INSERT INTO `material` (`nombre`, `precio`) VALUES (?, ?);";
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
@@ -186,8 +186,6 @@ public class MaterialDAO implements Persistible<Material> {
 				}
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return resul;
 	}

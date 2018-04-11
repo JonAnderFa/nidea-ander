@@ -1,6 +1,4 @@
-package com.ipartek.formacion.nidea.ejemplos;
-
-import java.util.StringTokenizer;
+package com.ipartek.formacion.nidea.util;
 
 public class Utilidades {
 	/**
@@ -16,13 +14,13 @@ public class Utilidades {
 	 * @return en caso de null retorna cadena vacia
 	 * 
 	 */
-	public static String LimpiarEspacios(String sCadenaSinBlancos) {
-		StringTokenizer stTexto = new StringTokenizer(sCadenaSinBlancos);
-
-		while (stTexto.hasMoreElements())
-			sCadenaSinBlancos += stTexto.nextElement();
-		return sCadenaSinBlancos;
-
+	public static String LimpiarEspacios(String cadena) {
+		String resul = "";
+		if (cadena != null) {
+			resul = cadena.trim();
+			resul = resul.replaceAll("\\s+", " ");
+		}
+		return resul;
 	}
 
 }

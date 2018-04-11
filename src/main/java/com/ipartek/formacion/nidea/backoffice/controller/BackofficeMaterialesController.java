@@ -232,9 +232,9 @@ public class BackofficeMaterialesController extends HttpServlet {
 				request.setAttribute("id", id);
 				request.setAttribute("nombre", nombre);
 				mostrarFormulario(request);
-				nombre = "";
-			}
 
+			}
+			nombre = "";
 			request.setAttribute("alert", alert);
 		}
 

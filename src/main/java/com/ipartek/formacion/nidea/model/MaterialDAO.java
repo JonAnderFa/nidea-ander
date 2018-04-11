@@ -174,17 +174,7 @@ public class MaterialDAO implements Persistible<Material> {
 			pst.setString(1, nombre);
 			pst.setFloat(2, precio);
 			pst.executeUpdate();
-
-			sql = "SELECT LAST_INSERT_ID();";
-			try (PreparedStatement pst2 = con.prepareStatement(sql);) {
-				pst2.executeUpdate();
-
-				int affetedRows = pst2.executeUpdate();
-
-				if (affetedRows == 1) {
-					resul = true;
-				}
-			}
+			resul = true;
 
 		}
 		return resul;

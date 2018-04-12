@@ -1,6 +1,6 @@
 package com.ipartek.formacion.nidea.ejemplos;
 
-public abstract class Vehiculo {
+public abstract class Vehiculo implements Ordenable {
 	private int puertas;
 	private String color;
 
@@ -15,6 +15,10 @@ public abstract class Vehiculo {
 
 	public void encenderLuces() {
 		System.out.println("Luces ON");
+	}
+
+	public int getValor() {
+		return this.puertas;
 	}
 
 	@Override

@@ -9,6 +9,8 @@
         <a class="p-2 text-white" href="generar-mesa">Mesa</a>        
         <a class="p-2 text-white" href="calculadora"> Calculadora</a>     
         <a class="p-2 text-white" href="materiales"> Materiales</a>  
+        <a class=" btn btn-outline-success" href="loginUser">Login User</a>
+        <a>  --</a>
       </nav>
       <nav class=" text-right my-2 my-md-0 mr-md-10">
 	      <c:if test="${empty usuario}">

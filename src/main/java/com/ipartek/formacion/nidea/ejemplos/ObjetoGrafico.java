@@ -1,4 +1,4 @@
-package com.ipartek.formacion.nidea.ejemplos.figuras;
+package com.ipartek.formacion.nidea.ejemplos;
 
 public abstract class ObjetoGrafico implements Imprimible {
 	private int x;

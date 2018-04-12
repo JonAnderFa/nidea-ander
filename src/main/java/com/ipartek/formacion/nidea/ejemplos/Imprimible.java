@@ -1,4 +1,4 @@
-package com.ipartek.formacion.nidea.ejemplos.figuras;
+package com.ipartek.formacion.nidea.ejemplos;
 
 public interface Imprimible {
 	public void imprimir();

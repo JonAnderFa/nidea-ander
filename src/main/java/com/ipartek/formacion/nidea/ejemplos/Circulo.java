@@ -1,4 +1,4 @@
-package com.ipartek.formacion.nidea.ejemplos.figuras;
+package com.ipartek.formacion.nidea.ejemplos;
 
 public class Circulo extends ObjetoGrafico {
 

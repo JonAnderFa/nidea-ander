@@ -1,5 +1,4 @@
 /**
- * Ejemplos para aprender Java 
  * 
  */
 /**

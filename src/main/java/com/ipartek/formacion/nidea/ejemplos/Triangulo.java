@@ -1,6 +1,6 @@
-package com.ipartek.formacion.nidea.ejemplos.figuras;
+package com.ipartek.formacion.nidea.ejemplos;
 
-public class Triangulo extends ObjetoGrafico {
+public class Triangulo extends ObjetoGrafico implements Ordenable {
 
 	public Triangulo() {
 		super();
@@ -20,6 +20,12 @@ public class Triangulo extends ObjetoGrafico {
 		System.out.println("*********************");
 		System.out.println("Estoy imprimiendo");
 		System.out.println("*********************");
+	}
+
+	@Override
+	public int getValor() {
+
+		return this.getX();
 	}
 
 }

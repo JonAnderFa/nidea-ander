@@ -1,6 +1,7 @@
 <%@include file="/templates/head.jsp" %>
 <%@include file="/templates/navbar.jsp" %>
 <%@include file="/templates/alert.jsp" %>
+
 <h1>Backofiice</h1>
 <% // Usamos EL => Expresion lenguage =>${} 
 //Podemos usar cualquier expresion, si no hay expresion pinta la variable %>
@@ -13,7 +14,7 @@
         <li class="breadcrumb-item">
           <a href="#">Dashboard</a>
         </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
+        <li class="breadcrumb-item active">Admin Back Office</li>
       </ol>
       <!-- Icon Cards-->
       <div class="row">
@@ -21,7 +22,7 @@
           <div class="card text-white bg-primary o-hidden h-100">
             <div class="card-body">
               <div class="card-body-icon">
-                <i class="fa fa-fw fa-comments"></i>
+                <i class="fa fa-fw fa-shopping-cart"></i>
               </div>
               <div class="mr-5">Materiales - ${materiales.size()}</div>
             </div>
@@ -37,12 +38,12 @@
           <div class="card text-white bg-warning o-hidden h-100">
             <div class="card-body">
               <div class="card-body-icon">
-                <i class="fa fa-fw fa-list"></i>
+                <i class="fa fa-fw fa-user"></i>
               </div>
-              <div class="mr-5">11 New Tasks!</div>
+              <div class="mr-5">Usuarios conectados - ${nubeUsuarios.size()}	</div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
-              <span class="float-left">View Details</span>
+              <span class="float-left">View Usuarios</span>
               <span class="float-right">
                 <i class="fa fa-angle-right"></i>
               </span>
@@ -53,7 +54,7 @@
           <div class="card text-white bg-success o-hidden h-100">
             <div class="card-body">
               <div class="card-body-icon">
-                <i class="fa fa-fw fa-shopping-cart"></i>
+                <i class="fa fa-fw fa-comments"></i>
               </div>
               <div class="mr-5">123 New Orders!</div>
             </div>
@@ -96,43 +97,42 @@
           <small>Copyright © Your Website 2018</small>
         </div>
       </div>
+       <!-- Example DataTables Card-->
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Data Table Usuarios Conectados</div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid" aria-describedby="dataTable_info" style="width: 100%;">
+              <thead>
+                <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending" style="width: 154px;">Id</th><th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1" aria-label="Position: activate to sort column ascending" style="width: 237px;">Nombre</th></tr>
+              </thead>
+              <tfoot>
+                <tr><th rowspan="1" colspan="1">Id</th><th rowspan="1" colspan="1">Nombre</th></tr>
+              </tfoot>
+              <tbody> 
+              	<c:forEach items="${nubeUsuarios}" var="usuario">
+              		<tr role="row" class="odd">
+						<td class="sorting_1">${usuario.key}</td>
+						<td>${usuario.value} </td>
+					</tr>
+				</c:forEach>
+               </tbody>
+            </table>
+         
+
+
+
+<%@include file="/templates/footer.jsp" %>
+<script src="https://code.jquery.com/jquery-1.12.4.js" ></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" ></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dataTable').dataTable();
+    });
+</script>
     </footer>
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fa fa-angle-up"></i>
-    </a>
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    <!-- Custom scripts for this page-->
-    <script src="js/sb-admin-datatables.min.js"></script>
-    <script src="js/sb-admin-charts.min.js"></script>
+   
   </div>
 
 

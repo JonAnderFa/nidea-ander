@@ -3,7 +3,7 @@
 <%@include file="/templates/alert.jsp" %>
 
 <div id="login">
-
+<h2>Login Admin</h2>
   <form class="form-signin" action="login" method="post">     
 
       <div class="form-label-group">

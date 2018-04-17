@@ -40,7 +40,7 @@
               <div class="card-body-icon">
                 <i class="fa fa-fw fa-user"></i>
               </div>
-              <div class="mr-5">Usuarios conectados - ${nubeUsuarios.size()}	</div>
+              <div class="mr-5">Usuarios Registrados - ${nubeUsuarios.size()}	</div>
             </div>
             <a class="card-footer text-white clearfix small z-1" href="#">
               <span class="float-left">View Usuarios</span>
@@ -136,4 +136,3 @@
   </div>
 
 
-<%@include file="/templates/footer.jsp" %>

@@ -1,16 +1,16 @@
 package com.ipartek.formacion.nidea.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.nidea.pojo.Alert;
+import com.ipartek.formacion.nidea.pojo.Usuario;
 
 /**
  * Servlet implementation class LoginUserController
@@ -51,19 +51,20 @@ public class LoginUserController extends HttpServlet {
 				if (request.getParameter("nombre") != null) {
 					String nombre = request.getParameter("nombre");
 
-					// recoger los usuarios conectados
-					ServletContext ctx = request.getServletContext();
-					HashMap<Integer, String> nubeUsuarios = null;
-
-					if (ctx.getAttribute("nubeUsuarios") == null) {
-						nubeUsuarios = new HashMap<Integer, String>();
-					} else {
-						nubeUsuarios = (HashMap<Integer, String>) ctx.getAttribute("nubeUsuarios");
-					}
-					// guardar usuario
-					nubeUsuarios.put(id, nombre);
-					// guardar hasmap en contexto Servlets
-					ctx.setAttribute("nubeUsuarios", nubeUsuarios);
+					HttpSession session = request.getSession();
+					session.setMaxInactiveInterval(5);
+					session.setAttribute("uPublic", new Usuario(id, nombre));
+					/*
+					 * // recoger los usuarios conectados ServletContext ctx =
+					 * request.getServletContext(); HashMap<Integer, String> nubeUsuarios = null;
+					 * 
+					 * // Si no existe lo creo y si no lo cargo de en el atributo local if
+					 * (ctx.getAttribute("nubeUsuarios") == null) { nubeUsuarios = new
+					 * HashMap<Integer, String>(); } else { nubeUsuarios = (HashMap<Integer,
+					 * String>) ctx.getAttribute("nubeUsuarios"); } // guardar usuario
+					 * nubeUsuarios.put(id, nombre); // guardar hasmap en contexto Servlets
+					 * ctx.setAttribute("nubeUsuarios", nubeUsuarios);
+					 */
 
 					view = "index.jsp";
 					alert = new Alert("Ongi Etorri '" + nombre + "'", Alert.TIPO_PRIMARY);

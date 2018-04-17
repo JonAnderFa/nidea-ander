@@ -41,16 +41,17 @@ public class MaterialDAO implements Persistible<Material> {
 	public ArrayList<Material> getAll() {
 
 		ArrayList<Material> lista = new ArrayList<Material>();
-		String sql = "SELECT id, nombre, precio FROM material;";
+		String sql = "SELECT m.id, m.nombre, precio, u.nombre FROM material as m INNER JOIN usuario as u ON m.id_usuario = u.id;";
 
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			try (ResultSet rs = pst.executeQuery();) {
 				Material m = null;
 				while (rs.next()) {
 					m = new Material();
-					m.setId(rs.getInt("id"));
-					m.setNombre(rs.getString("nombre"));
+					m.setId(rs.getInt("m.id"));
+					m.setNombre(rs.getString("m.nombre"));
 					m.setPrecio(rs.getFloat("precio"));
+					// TODO m.setRol(rs.getString("u.nombre"));
 					lista.add(m);
 				}
 			}

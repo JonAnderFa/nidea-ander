@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.ipartek.formacion.nidea.model.MaterialDAO;
+import com.ipartek.formacion.nidea.model.UsuarioDAO;
 import com.ipartek.formacion.nidea.pojo.Alert;
+import com.ipartek.formacion.nidea.pojo.Usuario;
 
 /**
  * Servlet implementation class LoginController
@@ -51,28 +53,40 @@ public class LoginController extends HttpServlet {
 		try {
 
 			String usuario = request.getParameter("usuario");
-			String password = request.getParameter("password");
+			String pas = request.getParameter("password");
+			UsuarioDAO u = UsuarioDAO.getInstance();
 
-			if (USER.equalsIgnoreCase(usuario) && PASS.equals(password)) {
-				// Enviar como atributo la lista de materiales
-				MaterialDAO dao = MaterialDAO.getInstance();
-				request.setAttribute("materiales", dao.getAll());
+			if (u.buscar(usuario, pas) != null) {
+				Usuario usu = u.buscar(usuario, pas);
+				if (usu.getId_rol() == 1) {
+					// Enviar como atributo la lista de materiales
+					MaterialDAO dao = MaterialDAO.getInstance();
+					request.setAttribute("materiales", dao.getAll());
 
-				// Guardar usuario en sesion
-				HttpSession session = request.getSession();
-				session.setMaxInactiveInterval(SESSION_EXPIRATION);
-				session.setAttribute("usuario", usuario);
+					// Guardar usuario en sesion
+					HttpSession session = request.getSession();
+					session.setMaxInactiveInterval(SESSION_EXPIRATION);
+					session.setAttribute("usuario", usuario);
 
-				ServletContext ctx = request.getServletContext();
-				HashMap<Integer, String> nubeUsuarios = (HashMap<Integer, String>) ctx.getAttribute("nubeUsuarios");
-				session.setAttribute("numUsuarios", nubeUsuarios);
+					ServletContext ctx = request.getServletContext();
+					HashMap<Integer, String> nubeUsuarios = (HashMap<Integer, String>) ctx.getAttribute("nubeUsuarios");
+					session.setAttribute("nubeUsuarios", nubeUsuarios);
 
-				view = "backoffice/index.jsp";
-				alert = new Alert("Ongi Etorri", Alert.TIPO_PRIMARY);
+					view = "backoffice/index.jsp";
+					alert = new Alert("Ongi Etorri", Alert.TIPO_PRIMARY);
+				} else if (usu.getId_rol() == 2) {
+					// Guardar usuario en sesion
+					HttpSession session = request.getSession();
+					session.setMaxInactiveInterval(SESSION_EXPIRATION);
+					session.setAttribute("usuario", usuario);
+
+					view = "index.jsp";
+					alert = new Alert("Bienvenido al Front: " + usu.getNombre(), alert.TIPO_PRIMARY);
+				}
 			} else {
 
 				view = "login.jsp";
-				alert = new Alert("Credenciales incorrectas, prueba de nuevo");
+				alert = new Alert("Credenciales incorrectas, prueba de nuevo", alert.TIPO_DANGER);
 			}
 
 		} catch (Exception e) {

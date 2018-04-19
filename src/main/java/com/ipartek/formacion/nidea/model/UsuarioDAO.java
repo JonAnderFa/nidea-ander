@@ -35,16 +35,13 @@ public class UsuarioDAO implements Persistible<Usuario> {
 	public ArrayList<Usuario> getAll() {
 
 		ArrayList<Usuario> lista = new ArrayList<Usuario>();
-		String sql = "SELECT id, nombre, id_rol FROM usuario;";
+		String sql = "SELECT u.id, u.nombre,u.id_rol,r.nombre FROM usuario as u,rol as r  WHERE u.id_rol = r.id;";
 
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			try (ResultSet rs = pst.executeQuery();) {
 				Usuario m = null;
 				while (rs.next()) {
-					m = new Usuario();
-					m.setId(rs.getInt("id"));
-					m.setNombre(rs.getString("nombre"));
-					m.setId_rol(rs.getInt("id_rol"));
+					m = mapper(rs);
 					lista.add(m);
 				}
 			}
@@ -69,7 +66,7 @@ public class UsuarioDAO implements Persistible<Usuario> {
 	public Usuario buscar(String nombre, String pass) {
 
 		Usuario usuario = null;
-		String sql = "SELECT id, nombre,id_rol FROM usuario WHERE nombre = ? and password = ? ;";
+		String sql = "SELECT u.id, u.nombre,u.id_rol,r.nombre FROM usuario as u,rol as r  WHERE u.nombre = ? AND u.password = ? AND u.id_rol = r.id ;";
 
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setString(1, nombre);
@@ -77,13 +74,7 @@ public class UsuarioDAO implements Persistible<Usuario> {
 			try (ResultSet rs = pst.executeQuery();) {
 
 				while (rs.next()) {
-					// if (rs.getInt("id") > 0) {
-					usuario = new Usuario();
-					usuario.setId(rs.getInt("id"));
-					usuario.setNombre(rs.getString("nombre"));
-					usuario.setId_rol(rs.getInt("id_rol"));
-					// }
-
+					usuario = mapper(rs);
 				}
 
 			}
@@ -116,8 +107,12 @@ public class UsuarioDAO implements Persistible<Usuario> {
 
 	@Override
 	public Usuario mapper(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Usuario usuario = new Usuario();
+		usuario.setId(rs.getInt("u.id"));
+		usuario.setNombre(rs.getString("u.nombre"));
+		usuario.getRol().setIdRol(rs.getInt("u.id_rol"));
+		usuario.getRol().setClase(rs.getString("r.nombre"));
+		return usuario;
 	}
 
 }

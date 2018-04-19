@@ -5,14 +5,22 @@ public class Material {
 	private int id;
 	private String nombre;
 	private float precio;
-	private int id_usuario;
+	private Usuario usuario;
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 	public Material() {
 		super();
 		this.id = -1;
 		this.nombre = "";
 		this.precio = 0f;
-		this.setId_usuario(1);
+		this.usuario = new Usuario();
 	}
 
 	public int getId() {
@@ -42,14 +50,6 @@ public class Material {
 	@Override
 	public String toString() {
 		return "Material [id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
-	}
-
-	public int getId_usuario() {
-		return id_usuario;
-	}
-
-	public void setId_usuario(int id_usuario) {
-		this.id_usuario = id_usuario;
 	}
 
 }

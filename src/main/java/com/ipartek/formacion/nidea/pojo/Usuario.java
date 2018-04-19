@@ -5,14 +5,24 @@ public class Usuario {
 	private int id;
 	private String nombre;
 	private String password;
-	private int id_rol;
+	private Rol rol;
+	public static int ROL_ADMIN = 1;
+	public static int ROL_USER = 2;
 
 	public Usuario() {
 		super();
 		this.id = -1;
 		this.setNombre("nada");
 		this.setPassword("123456");
-		this.setId_rol(2);
+		this.rol = new Rol();
+	}
+
+	public Rol getRol() {
+		return rol;
+	}
+
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
 
 	public Usuario(int id, String nombre) {
@@ -47,14 +57,6 @@ public class Usuario {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nombre=" + nombre + "]";
-	}
-
-	public int getId_rol() {
-		return id_rol;
-	}
-
-	public void setId_rol(int id_rol) {
-		this.id_rol = id_rol;
 	}
 
 	public String getPassword() {

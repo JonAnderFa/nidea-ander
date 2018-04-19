@@ -27,10 +27,30 @@ public class LoginController extends HttpServlet {
 	private String view = "";
 	private Alert alert = new Alert();
 
-	private static final String USER = "admin";
-	private static final String PASS = "admin";
+	private static final int ADMIN = 1;
+	private static final int USUARIO = 2;
+	private static final String BACKOFFICE = "backoffice/index.jsp";
+	private static final String FRONTOFFICE = "index.jsp";
+	private static final String LOGIN = "login.jsp";
+
+	private UsuarioDAO u;
+	private MaterialDAO dao;
 
 	private static final int SESSION_EXPIRATION = 60 * 20;// 20min de sesion que tarda en expirar
+
+	@Override
+	public void init() throws ServletException {
+		u = UsuarioDAO.getInstance();
+		// Enviar como atributo la lista de materiales
+		dao = MaterialDAO.getInstance();
+		super.init();
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		super.destroy();
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -39,7 +59,7 @@ public class LoginController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.getRequestDispatcher("login.jsp").forward(request, response);
+		request.getRequestDispatcher(LOGIN).forward(request, response);
 
 	}
 
@@ -54,44 +74,39 @@ public class LoginController extends HttpServlet {
 
 			String usuario = request.getParameter("usuario");
 			String pas = request.getParameter("password");
-			UsuarioDAO u = UsuarioDAO.getInstance();
+			Usuario usu = u.buscar(usuario, pas);
 
-			if (u.buscar(usuario, pas) != null) {
-				Usuario usu = u.buscar(usuario, pas);
-				if (usu.getId_rol() == 1) {
-					// Enviar como atributo la lista de materiales
-					MaterialDAO dao = MaterialDAO.getInstance();
-					request.setAttribute("materiales", dao.getAll());
+			if (usu != null) {
 
-					// Guardar usuario en sesion
-					HttpSession session = request.getSession();
-					session.setMaxInactiveInterval(SESSION_EXPIRATION);
-					session.setAttribute("usuario", usuario);
+				request.setAttribute("materiales", dao.getAll());
 
+				// Guardar usuario en sesion
+				HttpSession session = request.getSession();
+				session.setMaxInactiveInterval(SESSION_EXPIRATION);
+				session.setAttribute("usuario", usu);
+
+				if (usu.getRol().getIdRol() == 1) {
+					request.setAttribute("listUsuarios", u.getAll());
 					ServletContext ctx = request.getServletContext();
 					HashMap<Integer, String> nubeUsuarios = (HashMap<Integer, String>) ctx.getAttribute("nubeUsuarios");
 					session.setAttribute("nubeUsuarios", nubeUsuarios);
 
-					view = "backoffice/index.jsp";
+					view = BACKOFFICE;
 					alert = new Alert("Ongi Etorri", Alert.TIPO_PRIMARY);
-				} else if (usu.getId_rol() == 2) {
-					// Guardar usuario en sesion
-					HttpSession session = request.getSession();
-					session.setMaxInactiveInterval(SESSION_EXPIRATION);
-					session.setAttribute("usuario", usuario);
+				} else if (usu.getRol().getIdRol() == 2) {
 
-					view = "index.jsp";
+					view = FRONTOFFICE;
 					alert = new Alert("Bienvenido al Front: " + usu.getNombre(), alert.TIPO_PRIMARY);
 				}
 			} else {
 
-				view = "login.jsp";
+				view = LOGIN;
 				alert = new Alert("Credenciales incorrectas, prueba de nuevo", alert.TIPO_DANGER);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			view = "login.jsp";
+			view = LOGIN;
 			alert = new Alert();
 
 		} finally {
